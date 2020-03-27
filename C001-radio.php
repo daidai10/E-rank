@@ -1,45 +1,48 @@
 <form name="radioB">
-カナダの首都は？<br>
-<input type="radio" name="Q1">オタワ<br>
-<input type="radio" name="Q1">トロント<br>
-<input type="radio" name="Q1">モントリオール<br>
-<br>
-スイスの首都は？<br>
-<input type="radio" name="Q2">ジュネーブ<br>
-<input type="radio" name="Q2">チューリッヒ<br>
-<input type="radio" name="Q2">ベルン<br>
-<br>
-ドイツの首都は？<br>
-<input type="radio" name="Q3">ハンブルク<br>
-<input type="radio" name="Q3">ブレーメン<br>
-<input type="radio" name="Q3">ベルリン<br>
-<br>
-スペインの首都は？<br>
-<input type="radio" name="Q4">バルセロナ<br>
-<input type="radio" name="Q4">マドリード<br>
-<input type="radio" name="Q4">リスボン<br>
-<br>
-オーストラリアの首都は？<br>
-<input type="radio" name="Q5">シドニー<br>
-<input type="radio" name="Q5">メルボルン<br>
-<input type="radio" name="Q5">キャンベラ<br>
-<br>
-<input type="button" value="採点" onclick="saiten()" />
+<?php
+$city = ["オタワ",
+"トロント",
+"モントリオール",
+"ジュネーブ",
+"チューリッヒ",
+"ベルン",
+"ハンブルク",
+"ブレーメン",
+"ベルリン",
+"バルセロナ",
+"マドリード",
+"リスボン",
+"シドニー",
+"メルボルン",
+"キャンベラ"];
+
+$country = ["カナダ","スイス","ドイツ","スペイン","オーストラリア",];
+$c = 0;
+foreach ($city as $key => $value) {
+  if ($key % 3 == 0)
+    echo $country[$c++] , "の首都は？<br>";
+  echo "<input type='radio' name='Q$c' value='$key'> $value<br>";  
+}
+?>
+
+<input type="submit" name="submit" value="php採点" >
 </form>
 
 
 
-<script>
-function saiten(){
-  var seikai=0; //正解数を入れる変数
-  //答えの番号を配列に入れる
-  var trueAns = new Array(0,5,8,10,14);
-  //正解のラジオボタンがチェックされているか確認
-  for (i=0 ; i<5 ; i++)  {
-    if( document.radioB.elements[trueAns[i]].checked )
-      seikai++;
-  }
+
+
+<?php
+if( isset($_GET['submit'] )){
+  $seikai = 0;
+  $trueAns = [0,5,8,10,14];
   
-  alert("あなたは"+seikai*20+"点でした！");
+  for ( $i=0; $i<5; $i++) {
+    $q = $i+1 ;
+    if( isset($_GET["Q$q"] ) && 
+      $_GET["Q$q"] == $trueAns[$i])
+    $seikai++;
+  }
+  echo "あなたは",$seikai*20,"点でした！";
 }
-</script>
+?>
